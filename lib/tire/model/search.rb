@@ -42,7 +42,7 @@ module Tire
         #
         #     Article.search do
         #       query { terms :tags, ['ruby', 'python'] }
-        #       facet 'tags' { terms :tags }
+        #       aggs  'tags' { terms :tags }
         #     end
         #
         # You can pass options as the first argument, in this case:

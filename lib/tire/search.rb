@@ -4,7 +4,7 @@ module Tire
 
     class Search
 
-      attr_reader :indices, :types, :query, :facets, :filters, :options, :explain, :script_fields
+      attr_reader :indices, :types, :query, :aggs, :filters, :options, :explain, :script_fields
 
       def initialize(indices=nil, options={}, &block)
         if indices.is_a?(Hash)
@@ -63,9 +63,9 @@ module Tire
         self
       end
 
-      def facet(name, options={}, &block)
-        @facets ||= {}
-        @facets.update Facet.new(name, options, &block).to_hash
+      def aggs(name, options={}, &block)
+        @aggs ||= {}
+        @aggs.update Aggs.new(name, options, &block).to_hash
         self
       end
 
@@ -162,7 +162,7 @@ module Tire
           request.update( { :indices_boost => @indices_boost } ) if @indices_boost
           request.update( { :query  => @query.to_hash } )    if @query
           request.update( { :sort   => @sort.to_ary   } )    if @sort
-          request.update( { :facets => @facets.to_hash } )   if @facets
+          request.update( { :aggs   => @aggs.to_hash } )       if @aggs
           request.update( { :filter => @filters.first.to_hash } ) if @filters && @filters.size == 1
           request.update( { :filter => { :and => @filters.map {|filter| filter.to_hash} } } ) if  @filters && @filters.size > 1
           request.update( { :highlight => @highlight.to_hash } ) if @highlight

@@ -1,7 +1,7 @@
 module Tire
   module Search
 
-    class Facet
+    class Aggs
 
       def initialize(name, options={}, &block)
         @name    = name
@@ -63,7 +63,7 @@ module Tire
       end
 
       def facet_filter(type, *options)
-        @value[:facet_filter] = Filter.new(type, *options).to_hash
+        @value[:filter] = Filter.new(type, *options).to_hash
         self
       end
 
